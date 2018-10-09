@@ -25,7 +25,7 @@ my %type = (
 die "Usage: $0 --sock <unix_domain_socket> --type <stream|datagram>\n" if (!defined($sock) || !defined($type));
 die "ERROR: Please specify stream or datagram socket type for UNIX domain socket.\n" if ($type ne 'stream' && $type ne 'datagram');
 
-print "UNIX Socket Domain Socket: $sock\n";
+print "UNIX Domain Socket: $sock\n";
 print "Socket Type: \U$type\n";
 print "Client PID: $$\n\n";
 
