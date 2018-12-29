@@ -40,13 +40,17 @@ my $prompt = '> ';
 
 while (1) {
 	print $prompt;
+
+    # quit the loop if encounters EOF
+    last if (eof(STDIN) == 1);
+
 	chomp(my $input = <STDIN>);
 	next if ($input eq "");
 
 	print $socket $input."\n";
 
 	my $output = <$socket>;
-	next if !defined($output);
+	next if (!defined($output));
 	chomp $output;
 	print $output."\n";
 }
