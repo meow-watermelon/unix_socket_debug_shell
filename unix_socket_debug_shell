@@ -8,18 +8,18 @@ use Getopt::Long;
 use sigtrap qw(handler sigpipe_handler PIPE);
 
 sub sigpipe_handler {
-	die "ERROR: SIGPIPE caught.\n";
+    die "ERROR: SIGPIPE caught.\n";
 }
 
 my ($sock, $type) = (undef, undef);
 GetOptions (
-	"sock=s" => \$sock,
-	"type=s" => \$type,
+    "sock=s" => \$sock,
+    "type=s" => \$type,
 );
 
 my %type = (
-	"stream" => SOCK_STREAM,
-	"datagram" => SOCK_DGRAM,
+    "stream" => SOCK_STREAM,
+    "datagram" => SOCK_DGRAM,
 );
 
 die "Usage: $0 --sock <unix_domain_socket> --type <stream|datagram>\n" if (!defined($sock) || !defined($type));
@@ -30,8 +30,8 @@ print "Socket Type: \U$type\n";
 print "Client PID: $$\n\n";
 
 my $socket = IO::Socket::UNIX->new(
-	Peer => $sock,
-	Type => $type{$type},
+    Peer => $sock,
+    Type => $type{$type},
 ) or die "ERROR: Could not connect to the UNIX domain socket $sock: $!\n";
 
 $socket->autoflush(1);
@@ -39,18 +39,18 @@ $socket->autoflush(1);
 my $prompt = '> ';
 
 while (1) {
-	print $prompt;
+    print $prompt;
 
     # quit the loop if encounters EOF
     last if (eof(STDIN) == 1);
 
-	chomp(my $input = <STDIN>);
-	next if ($input eq "");
+    chomp(my $input = <STDIN>);
+    next if ($input eq "");
 
-	print $socket $input."\n";
+    print $socket $input."\n";
 
-	my $output = <$socket>;
-	next if (!defined($output));
-	chomp $output;
-	print $output."\n";
+    my $output = <$socket>;
+    next if (!defined($output));
+    chomp $output;
+    print $output."\n";
 }
